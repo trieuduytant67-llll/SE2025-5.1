@@ -1,0 +1,378 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    font-family: "orbitron", sans-serif;
+}
+
+:root {
+    --text-color: #cec8c8;
+    --primary-color: #EEA372;
+    --secondary-color: #000000;
+
+    --h1-font: 3.125rem;
+    --h2-font: 2.25rem;
+    --h3-font: 1.25rem;
+    --p-font: 1rem;
+}
+
+body {
+    background-color: #301b1b;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 10%;
+}
+
+.logo img{
+    width: 240px;
+    height: auto;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+}
+
+.navigation a {
+    color: var(--text-color);
+    font-size: var(--p-font);
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    letter-spacing: 1px;
+    font-family: "Ubuntu", sans-serif;
+    transition: all .42s;
+}
+
+.navigation .active{
+    color: var(--primary-color);
+}
+
+.navigation a:hover {
+    color: var(--primary-color);
+}
+
+#menu-icon {
+    color: var(--text-color);
+    font-size: var(--h2-font);
+    z-index: 10001;
+    cursor: pointer;
+    display: none;
+}
+
+.navbar-btn {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.navbar-btn a {
+    display: inline-flex;
+    color: var(--text-color);
+    font-size: var(--p-font);
+    background-color: transparent;
+    padding: 8px 18px;
+    font-weight: 500;
+    text-transform: inherit;
+    border: 1.5px solid var(--text-color);
+    letter-spacing: 0.5px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-right: 15px;
+    transition: all .42s;
+}
+
+.navbar-btn a:hover{
+    background: linear-gradient(270deg, #FD7A28 11.4%, #EEA372 59.81%);
+    border:  1.5px solid #FD7A28;
+    color: var(--secondary-color);
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-btn i {
+    font-size: var(--h3-font);
+    margin-left: 5px;
+    transition: all .42s;
+    /*added*/
+    color: var(--text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-btn a:hover i {
+    transform: scale(1.1);
+}
+
+/* website home page css*/
+section {
+    padding: 80px 10% 60px;
+}
+
+.home-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url(image/web-background.png);
+    background-size: cover;
+    display: grid;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.home-img img {
+    position: absolute;
+    bottom: 0;
+    right: 12%;
+    width: 480px;
+    height: auto;
+    cursor: pointer;
+    transition: all .42s;
+}
+
+.home-img img:hover {
+    filter: brightness(80%);
+}
+
+.home-text h4 {
+    color: var(--primary-color);
+    font-size: var(--h3-font);
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.home-text h1 {
+    color: var(--text-color);
+    font-size: var(--h1-font);
+    font-weight: 900;
+    line-height: 1.2;
+    margin: 12px 0;
+    text-transform: inherit;
+}
+
+.trans-text {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-color);
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #FD7A28 11.4%, #EEA372 59.81%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.home-text p {
+    max-width: 480px;
+    color: rgba(250, 242, 242, 0.95);
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0.5px;
+    margin-bottom: 30px;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.home-btn {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.home-btn a{
+    display: inline-flex;
+    color: var(--secondary-color);
+    font-size: var(--p-font);
+    font-weight: 700;
+    padding: 10px 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background: linear-gradient(270deg, #FD7A28 11.4%, #EEA372 59.81%);
+    transition: all .42s;
+}
+
+.home-btn a:hover {
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.home-btn i {
+    font-size: var(--h3-font);
+    margin-left: 5px;
+    transition: all .42s;
+}
+
+.home-btn:hover i {
+    transform: scale(1.1);
+}   
+
+.web-humb {
+    position: absolute;
+    left: 10%;
+    bottom: 5%;
+}
+.humb-img img {
+    width: 280px;
+    height: auto;
+    cursor: pointer;
+    transition: all .42s;
+}
+
+/*Web responsive Design*/
+@media (max-width: 1360px) {
+    header {
+        padding: 30px 4%;
+        transition: .4s;
+    }
+
+    section {
+        padding: 80px 4% 60px;
+        transition: .4s;
+    }
+
+    .web-humb {
+        left: 4%;
+        transition: .4s;
+    }
+}
+
+@media (max-width: 1180px) {
+    .home-img img {
+        width: 450px;
+        height: auto;
+        transition: .4s;
+    }
+    .home-text h1 {
+        font-size: 45px;
+        transition: .4s;
+    }
+    .home-btn a {
+        padding: 10px 18px;
+        transition: .4s; 
+    }
+    .humb-img img{
+        width: 250px;
+        transition: .4s;
+    }
+}
+
+@media (max-width: 1068px) {
+    .home-img img {
+        width: 400px;
+        height: auto;
+        transition: .4s;
+    }
+    .home-text h1 {
+        font-size: 40px;
+        transition: .4s;
+    }
+    .home-btn a {
+        padding: 10px 18px;
+        transition: .4s; 
+    }
+    .humb-img img{
+        width: 200px;
+        transition: .4s;
+    }
+}
+
+
+@media (max-width: 950px) {
+    .home-img img {
+        width: 350px;
+        height: auto;
+        transition: .4s;
+    }
+    .home-text h1 {
+        font-size: 35px;
+        margin: 10px 0px;
+        transition: .4s;
+    }
+    .home-btn a {
+        padding: 8px 18px;
+        transition: .4s; 
+    }
+    .humb-img img{
+        width: 180px;
+        transition: .4s;
+    }
+}
+
+@media (max-width: 860px) {
+    .home-page {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .home-text {
+        padding: 20px;
+    }
+    .home-img img {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        width: 350px;
+        transition: .4s;
+    }
+    header {
+        padding: 14px 4%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
+        background-color: #301b1b;
+    }
+    section {
+        padding: 80px 4% 0px;
+        transition: .4s;
+    }
+    #menu-icon {
+        display: block;
+    }
+    .navigation {
+        top: 100%;
+        right: -100%;
+        width: 250px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        background: #301b1b;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 5px;
+        padding: 50px 20px;
+        border-radius: 5px;
+        transition: all .42s;
+    }
+    .navigation a{
+        display: block;
+        margin : 5px 0;
+        font-size: 20px;
+    }
+    .navigation.open {
+        right: 0;
+    }
+}
+
+@media (max-width: 750px) {
+    .web-humb {
+        left: 28%;
+        transition: .4s;
+    }
+    .home-text h1 {
+        font-size: 30px;
+        margin: 10px 0px;
+        transition: .4s;
+    }
+    .home-page {
+        gap: 4rem;
+    }
+}
+
