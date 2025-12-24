@@ -97,3 +97,30 @@ SE2025-5.1/
 │   └── default.conf         # Thiết lập Nginx – điều hướng Frontend/API
 │
 └── docker-compose.yml       # Khởi chạy đồng thời các dịch vụ hệ thống
+
+## IV. Thành Viên Thực Hiện
+
+- **Triệu Duy Tân (22001638)**  
+  *Phụ trách Frontend & AR Integration*
+
+- **Hoàng Hoài Nam (22001619)**  
+  *Phụ trách Backend API & DevOps*
+
+**Giảng viên hướng dẫn:**  
+**Bùi Sỹ Nguyên**
+
+---
+
+## V. Công Nghệ Sử Dụng
+
+- **Frontend:**  
+  HTML, CSS, JavaScript, Google Model-Viewer, WebAR
+
+- **Backend:**  
+  Laravel 11 (PHP)
+
+- **Database:**  
+  MySQL
+
+- **DevOps:**  
+  Docker, Docker Compose, Nginx
