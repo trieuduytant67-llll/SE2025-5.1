@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .product-container { display: flex; gap: 20px; }
+        .product-info { max-width: 500px; }
+        .product-info h2 { margin-top: 0; }
+        .product-info p { margin: 5px 0; }
+        model-viewer { width: 400px; height: 400px; background-color: #f0f0f0; }
+        .back-btn { margin-bottom: 20px; display: inline-block; text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">&larr; Quay lại trang chủ</a>
+
+<div class="product-container">
+    <model-viewer id="ar-model" src="" alt="AR Model" camera-controls auto-rotate ar></model-viewer>
+    <div class="product-info">
+        <h2 id="product-name"></h2>
+        <p><strong>Giá:</strong> <span id="product-price"></span> ₫</p>
+        <p><strong>Danh mục:</strong> <span id="product-category"></span></p>
+        <p id="product-description"></p>
+        <img id="product-image" src="" alt="Ảnh sản phẩm" style="width: 100%; max-width: 400px; margin-top: 10px;">
+    </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const productId = params.get('id');
+
+async function loadProduct() {
+    try {
+        const product = await apiRequest(`/products/${productId}`);
+        
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-price').textContent = Number(product.price).toLocaleString();
+        document.getElementById('product-category').textContent = product.category?.name || '';
+        document.getElementById('product-description').textContent = product.description || '';
+        
+        // Ảnh chính
+        const primaryImage = product.images.find(img => img.is_primary) || product.images[0];
+        if (primaryImage) {
+            document.getElementById('product-image').src = primaryImage.image_path;
+        }
+
+        // AR model
+        const arModel = product.ar_models?.[0];
+        if (arModel) {
+            document.getElementById('ar-model').src = arModel.file_path;
+        } else {
+            document.getElementById('ar-model').style.display = 'none';
+        }
+    } catch (e) {
+        alert("Không thể tải sản phẩm.");
+        console.error(e);
+    }
+}
+
+loadProduct();
+</script>
+
+</body>
+</html>

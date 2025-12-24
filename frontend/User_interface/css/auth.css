@@ -1,0 +1,29 @@
+.auth-box {
+    max-width: 400px;
+    margin: 80px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.auth-box h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.auth-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.auth-box button {
+    width: 100%;
+    padding: 10px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}

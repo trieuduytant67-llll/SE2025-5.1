@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Trị Hệ Thống - AR.STORE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root { --primary: #4318ff; --bg: #f4f7fe; }
+        body { background: var(--bg); font-family: 'Segoe UI', sans-serif; }
+        .sidebar { background: white; min-height: 100vh; position: fixed; width: 260px; box-shadow: 4px 0 10px rgba(0,0,0,0.02); z-index: 1000; }
+        .main-content { margin-left: 260px; padding: 40px; }
+        .card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .product-img { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; }
+        .nav-link { color: #a3aed0; font-weight: 600; padding: 15px 25px; border-radius: 15px; margin: 5px 15px; text-decoration: none; display: block; }
+        .nav-link.active { background: #f4f7fe; color: var(--primary); }
+        .btn-primary { background: var(--primary); border: none; border-radius: 12px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar d-flex flex-column p-3">
+    <div class="px-3 py-4">
+        <h3 class="fw-bold text-primary">AR.STORE</h3>
+        <p class="text-muted small">Quản trị viên</p>
+    </div>
+    <nav class="nav flex-column mt-2">
+        <a class="nav-link active" href="#"><i class="fas fa-box me-2"></i> Sản phẩm</a>
+        <a class="nav-link" href="index.html"><i class="fas fa-store me-2"></i> Xem cửa hàng</a>
+        <a class="nav-link text-danger mt-5" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
+    </nav>
+</div>
+
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="fw-bold">Quản lý kho hàng</h2>
+        <button class="btn btn-primary shadow" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fas fa-plus me-2"></i> Thêm sản phẩm
+        </button>
+    </div>
+
+    <div class="card p-4">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr class="text-muted small">
+                        <th>ID</th>
+                        <th>ẢNH</th>
+                        <th>TÊN SẢN PHẨM</th>
+                        <th>GIÁ</th>
+                        <th>HÀNH ĐỘNG</th>
+                    </tr>
+                </thead>
+                <tbody id="productTable"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 25px;">
+            <div class="modal-header border-0 px-4 pt-4">
+                <h5 class="fw-bold">Thông tin sản phẩm mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="productForm">
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-bold small">Tên sản phẩm</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small">Giá (VNĐ)</label>
+                            <input type="number" id="price" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small">Danh mục</label>
+                            <select id="category_id" class="form-select" required></select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small text-primary">Link Ảnh Poster (URL)</label>
+                            <input type="url" id="image_url_manual" class="form-control" placeholder="https://...">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small text-primary">Link Model 3D (.glb URL)</label>
+                            <input type="url" id="model_url_manual" class="form-control" placeholder="https://...">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold shadow">LƯU SẢN PHẨM</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const API = "http://34.60.101.69/api/v1";
+    const token = localStorage.getItem('access_token');
+
+    window.onload = () => {
+        if (!token) window.location.href = 'login.html';
+        loadCategories();
+        loadProducts();
+    };
+
+    async function loadCategories() {
+        try {
+            const res = await fetch(`${API}/categories`);
+            const cats = await res.json();
+            document.getElementById('category_id').innerHTML = cats.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        } catch (e) { console.error("Lỗi nạp danh mục"); }
+    }
+
+    async function loadProducts() {
+        try {
+            const res = await fetch(`${API}/products`);
+            const data = await res.json();
+            const tbody = document.getElementById('productTable');
+            tbody.innerHTML = data.map(p => {
+                const img = (p.images && p.images.length > 0) ? p.images[0].image_path : 'https://via.placeholder.com/50';
+                return `
+                <tr>
+                    <td>#${p.id}</td>
+                    <td><img src="${img}" class="product-img"></td>
+                    <td class="fw-bold text-dark">${p.name}</td>
+                    <td>${new Intl.NumberFormat('vi-VN').format(p.price)}đ</td>
+                    <td>
+                        <button class="btn btn-sm text-danger" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            }).join('');
+        } catch (e) { console.error("Lỗi nạp sản phẩm"); }
+    }
+
+    document.getElementById('productForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const payload = {
+            name: document.getElementById('name').value,
+            price: document.getElementById('price').value,
+            category_id: document.getElementById('category_id').value,
+            image_url_manual: document.getElementById('image_url_manual').value,
+            model_url_manual: document.getElementById('model_url_manual').value
+        };
+
+        const res = await fetch(`${API}/products`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            Swal.fire('Thành công', 'Sản phẩm đã được lưu!', 'success');
+            loadProducts();
+            bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();
+            e.target.reset();
+        } else {
+            Swal.fire('Lỗi', 'Không thể lưu sản phẩm', 'error');
+        }
+    };
+
+    async function deleteProduct(id) {
+        const result = await Swal.fire({
+            title: 'Xóa sản phẩm?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        });
+
+        if (result.isConfirmed) {
+            const res = await fetch(`${API}/products/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) loadProducts();
+        }
+    }
+
+    function logout() { localStorage.clear(); window.location.href = 'login.html'; }
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+services:
+  shopwebar-db:
+    image: mariadb:10.11
+    user: "0:0"  # Thêm dòng này
+    container_name: shopwebar-db
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: shopwebar
+      MARIADB_USER: shopwebar
+      MARIADB_PASSWORD: shopwebarpass
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - shop_network
+
+  shopwebar-php:
+    image: php:8.4-fpm
+    container_name: shopwebar-php
+    restart: always
+    working_dir: /var/www/backend
+    volumes:
+      - ./frontend:/var/www/frontend  # THÊM DÒNG NÀY    
+      - ./backend:/var/www/backend
+    depends_on:
+      - shopwebar-db
+    networks:
+      - shop_network
+
+  shopwebar-nginx:
+    image: nginx:1.22
+    container_name: shopwebar-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/User_interface:/var/www/frontend/User_interface
+      - ./backend:/var/www/backend
+      - ./nginx/conf.d/shopwebar.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - shopwebar-php
+      - shopwebar-db
+    networks:
+      - shop_network
+
+networks:
+  shop_network:
+    name: shop_network
+    driver: bridge
+
+volumes:
+  db_data:
