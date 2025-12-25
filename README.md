@@ -89,9 +89,8 @@ SE2025-5.1/
 │   └── Dockerfile           # Cấu hình đóng gói backend
 │
 ├── frontend/                # Giao diện người dùng (Frontend)
-│   ├── assets/              # Hình ảnh, mô hình 3D, CSS/JS
-│   ├── index.html           # Trang chính hiển thị sản phẩm
-│   └── orders.html          # Trang lịch sử đơn hàng
+│   ├── assets/              # Hình ảnh, CSS/JS
+│   └── ui/                  # HTML pages
 │
 ├── nginx/                   # Cấu hình Web Server (Reverse Proxy)
 │   └── default.conf         # Thiết lập Nginx – điều hướng Frontend/API
